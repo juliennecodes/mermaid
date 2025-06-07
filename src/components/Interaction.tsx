@@ -1,11 +1,11 @@
-import {useState} from "react";
-import {Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, TextField, Typography} from "@mui/material";
+import {useEffect, useState} from "react";
+import {Box, FormControl, IconButton, InputLabel, MenuItem, Select, TextField, Typography} from "@mui/material";
 import {statusCodes} from "../helpers/statusCodes.ts";
 import {methods} from "../helpers/methods.ts";
 import type {InteractionType, InteractionProps, SelectStatusCodeProps, SelectMethodProps} from "../helpers/types.ts";
 import ClearRounded from '@mui/icons-material/ClearRounded';
-import {CheckCircleRounded, CheckRounded} from "@mui/icons-material";
-import {LIGHT_COLOUR, PADDING_SMALL} from "../helpers/styleConstants.ts";
+import {CheckCircleRounded} from "@mui/icons-material";
+import {LIGHT_COLOUR, PADDING_MEDIUM, PADDING_SMALL} from "../helpers/styleConstants.ts";
 
 const SelectMethod = ({method, setMethod}: SelectMethodProps) => {
 
@@ -58,6 +58,15 @@ export const Interaction = ({id, interaction, setInteractions}: InteractionProps
         });
     }
 
+    useEffect(() => {
+        const valuesForInteraction = {method, endpoint, requestBody, statusCode, responseBody} as InteractionType;
+        setInteractions((prevState) => {
+            const newVersion = [...prevState];
+            newVersion[id] = valuesForInteraction;
+            return newVersion;
+        });
+    }, [method, endpoint, requestBody, statusCode, responseBody, id, setInteractions])
+
     const deleteInteraction = () => {
         setInteractions((prevState) => {
             const newVersion = [...prevState];
@@ -67,50 +76,63 @@ export const Interaction = ({id, interaction, setInteractions}: InteractionProps
     }
 
     return (
-        <Box display={"flex"}>
-            <Box sx={{backgroundColor: LIGHT_COLOUR}} display={"flex"} gap={2} padding={2}>
+        <Box display={"flex"}
+             paddingX={PADDING_MEDIUM}
+             paddingY={PADDING_SMALL}
+             gap={PADDING_SMALL}
+        >
+            <Box sx={
+                {backgroundColor: LIGHT_COLOUR}}
+                 display={"flex"}
+                 gap={PADDING_SMALL}
+                 paddingX={PADDING_MEDIUM}
+                 paddingY={PADDING_MEDIUM}
+            >
                 <Box display={'flex'} gap={PADDING_SMALL}>
-                    <Box>
+                    <Box display={'flex'}
+                         flexDirection={'column'}
+                         gap={PADDING_SMALL}
+                    >
                         <Typography>Request</Typography>
-                        <SelectMethod method={method} setMethod={setMethod}/>
-                        <TextField
-                            id="endpoint-text"
-                            label="Endpoint"
-                            defaultValue=""
-                            variant="filled"
-                            onChange={(e) => setEndpoint(e.target.value)}
-                        />
-                        <TextField
-                            id="request-body-text"
-                            label="Request Body"
-                            multiline
-                            minRows={4}
-                            defaultValue=""
-                            variant="filled"
-                            onChange={(e) => setRequestBody(e.target.value)}
-                        />
+                        <Box display={"flex"} gap={PADDING_SMALL}>
+                            <SelectMethod method={method} setMethod={setMethod}/>
+                            <TextField
+                                id="endpoint-text"
+                                label="Endpoint"
+                                defaultValue={endpoint}
+                                variant="filled"
+                                onChange={(e) => setEndpoint(e.target.value)}
+                            />
+                            <TextField
+                                id="request-body-text"
+                                label="Request Body"
+                                multiline
+                                minRows={4}
+                                defaultValue={requestBody}
+                                variant="filled"
+                                onChange={(e) => setRequestBody(e.target.value)}
+                            />
+                        </Box>
                     </Box>
 
-                    <Box>
+                    <Box display={'flex'}
+                         flexDirection={'column'}
+                         gap={PADDING_SMALL}
+                    >
                         <Typography>Response</Typography>
-                        <SelectStatusCode statusCode={statusCode} setStatusCode={setStatusCode}/>
-                        <TextField
-                            id="response-body-text"
-                            label="Response Body"
-                            multiline
-                            minRows={4}
-                            defaultValue=""
-                            variant="filled"
-                            onChange={(e) => setResponseBody(e.target.value)}
-                        />
+                        <Box display={"flex"} gap={PADDING_SMALL}>
+                            <SelectStatusCode statusCode={statusCode} setStatusCode={setStatusCode}/>
+                            <TextField
+                                id="response-body-text"
+                                label="Response Body"
+                                multiline
+                                minRows={4}
+                                defaultValue=""
+                                variant="filled"
+                                onChange={(e) => setResponseBody(e.target.value)}
+                            />
+                        </Box>
                     </Box>
-                </Box>
-
-
-                <Box sx={{alignSelf: 'flex-start'}}>
-                <IconButton onClick={setValuesForInteraction}>
-                    <CheckCircleRounded />
-                </IconButton>
                 </Box>
             </Box>
             <Box sx={{alignSelf: 'center'}}>

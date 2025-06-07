@@ -2,9 +2,16 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
+import mermaid from "mermaid";
+import { ThemeProvider } from '@mui/material';
+import theme from "./helpers/theme.ts";
+
+mermaid.initialize({ startOnLoad: true });
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+      <ThemeProvider theme={theme}>
+          <App />
+      </ThemeProvider>
   </StrictMode>,
 )

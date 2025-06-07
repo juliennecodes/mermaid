@@ -1,5 +1,6 @@
 import type {InteractionType, StatusCodeType, ValuesForMarkup} from "./types.ts";
 import {statusCodeToReadableMap} from "./statusCodes.ts";
+import {MERMAID_DARK_MODE_COLOUR} from "./styleConstants.ts";
 
 const breakFormatted = (x: string) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -11,7 +12,7 @@ const completeStatusCode = (statusCode: StatusCodeType) => {
     return `${statusCode} ${statusCodeToReadableMap.get(statusCode)}`;
 }
 const generateMarkupForEachInteraction = ({method, endpoint, requestBody, statusCode, responseBody}: InteractionType) => {
-    return `rect rgb(35, 35, 35)
+    return `rect ${MERMAID_DARK_MODE_COLOUR}
         A->>B: ${method}<br/>${endpoint}<br/>${breakFormatted(requestBody)}
         B-->>A: ${completeStatusCode(statusCode)}<br/> ${breakFormatted(responseBody)}
     end
