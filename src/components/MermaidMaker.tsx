@@ -1,10 +1,13 @@
 import {Box, Button, TextField} from "@mui/material";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {generateMarkup} from "../helpers/generateMarkup.ts";
 import {Interaction} from "./Interaction.tsx";
 import {emptyInteraction} from "../helpers/helpers.ts";
 import type {InteractionType, MermaidMakerProps} from "../helpers/types.ts";
-import {LIGHT_COLOUR, PADDING_SMALL} from "../helpers/styleConstants.ts";
+import {
+    COLOUR_PRIMARY_LIGHT,
+    PADDING_SMALL
+} from "../helpers/styleConstants.ts";
 
 export const MermaidMaker = ({setMermaidMarkup}: MermaidMakerProps) => {
     const [participantAName, setParticipantAName] = useState('A');
@@ -15,18 +18,17 @@ export const MermaidMaker = ({setMermaidMarkup}: MermaidMakerProps) => {
         setInteractions((prevState) => [...prevState, emptyInteraction]);
     }
 
-    const handleGenerateMarkup = () => {
+    useEffect(() => {
         const generatedMarkup = generateMarkup({participantAName, participantBName, interactions});
-        navigator.clipboard.writeText(generatedMarkup).then(() => null);
-        setMermaidMarkup(generatedMarkup)
-    }
+        setMermaidMarkup(generatedMarkup);
+    }, [interactions, participantAName, participantBName, setMermaidMarkup])
 
     return (
         <Box>
             <Box display={"flex"}
                  flexDirection={"column"}
                  gap={PADDING_SMALL}
-                 sx={{border: `2px solid ${LIGHT_COLOUR}`}}
+                 sx={{border: `2px solid ${COLOUR_PRIMARY_LIGHT}`}}
                  paddingY={PADDING_SMALL}
             >
                 <Box display={"flex"}
@@ -64,7 +66,6 @@ export const MermaidMaker = ({setMermaidMarkup}: MermaidMakerProps) => {
                 </Box>
                 <Button onClick={addInteraction}>Add Interaction</Button>
             </Box>
-            <Button onClick={handleGenerateMarkup}>Generate Markup</Button>
         </Box>
     )
 }

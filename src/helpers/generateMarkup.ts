@@ -13,7 +13,7 @@ const completeStatusCode = (statusCode: StatusCodeType) => {
 }
 const generateMarkupForEachInteraction = ({method, endpoint, requestBody, statusCode, responseBody}: InteractionType) => {
     return `rect ${MERMAID_DARK_MODE_COLOUR}
-        A->>B: ${method}<br/>${endpoint}<br/>${breakFormatted(requestBody)}
+        A->>B: ${method}<br/>${endpoint}<br/><br/>${breakFormatted(requestBody)}
         B-->>A: ${completeStatusCode(statusCode)}<br/> ${breakFormatted(responseBody)}
     end
     `;

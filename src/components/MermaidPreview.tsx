@@ -3,11 +3,12 @@ import {useEffect, useState} from "react";
 import mermaid from "mermaid";
 import ClearRounded from "@mui/icons-material/ClearRounded";
 import {
-    LIGHT_COLOUR,
+    BACKGROUND_COLOUR,
     MERMAID_DARK_MODE_COLOUR,
     MERMAID_LIGHT_MODE_COLOUR,
     PADDING_SMALL
 } from "../helpers/styleConstants.ts";
+import {ContentCopyRounded} from "@mui/icons-material";
 
 export const RenderedMermaidPreview = ({content, setShowRendered}: { content: string, setShowRendered: unknown }) => {
     useEffect(() => {
@@ -29,10 +30,12 @@ export const RenderedMermaidPreview = ({content, setShowRendered}: { content: st
         >
         <Box display={"flex"}
              justifyContent={"center"}
-             bgcolor={LIGHT_COLOUR}
+             bgcolor={BACKGROUND_COLOUR}
              padding={PADDING_SMALL}
         >
-            <Box sx={{height: '90vh', overflowY: 'scroll'}}>
+            <Box display={"flex"}
+                 justifyContent={"center"}
+                 sx={{height: '90vh', overflowY: 'scroll'}}>
                 <pre className="mermaid" id="mermaid-diagram"></pre>
             </Box>
             <Box alignSelf={"start"}>
@@ -51,11 +54,17 @@ export const RenderedMermaidPreview = ({content, setShowRendered}: { content: st
 
 export const MermaidPreview = ({content}: { content: string }) => {
     const [showRendered, setShowRendered] = useState(false);
+
+    const copyMarkup = () => {
+        navigator.clipboard.writeText(content).then(() => null);
+    }
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const markupForPreview = content.replaceAll(MERMAID_DARK_MODE_COLOUR, MERMAID_LIGHT_MODE_COLOUR);
+
     return (
-        <Box>
+        <Box display={'flex'}>
+            <Button onClick={copyMarkup}><ContentCopyRounded /></Button>
             <Button onClick={() => setShowRendered(!showRendered)}>Toggle Rendered Diagram</Button>
             {<Modal
                 open={showRendered}

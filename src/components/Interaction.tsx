@@ -4,8 +4,11 @@ import {statusCodes} from "../helpers/statusCodes.ts";
 import {methods} from "../helpers/methods.ts";
 import type {InteractionType, InteractionProps, SelectStatusCodeProps, SelectMethodProps} from "../helpers/types.ts";
 import ClearRounded from '@mui/icons-material/ClearRounded';
-import {CheckCircleRounded} from "@mui/icons-material";
-import {LIGHT_COLOUR, PADDING_MEDIUM, PADDING_SMALL} from "../helpers/styleConstants.ts";
+import {
+    COLOUR_PRIMARY_EXTRA_LIGHT,
+    PADDING_MEDIUM,
+    PADDING_SMALL
+} from "../helpers/styleConstants.ts";
 
 const SelectMethod = ({method, setMethod}: SelectMethodProps) => {
 
@@ -49,15 +52,6 @@ export const Interaction = ({id, interaction, setInteractions}: InteractionProps
     const [statusCode, setStatusCode] = useState(interaction.statusCode);
     const [responseBody, setResponseBody] = useState(interaction.responseBody);
 
-    const setValuesForInteraction = () => {
-        const valuesForInteraction = {method, endpoint, requestBody, statusCode, responseBody} as InteractionType;
-        setInteractions((prevState) => {
-            const newVersion = [...prevState];
-            newVersion[id] = valuesForInteraction;
-            return newVersion;
-        });
-    }
-
     useEffect(() => {
         const valuesForInteraction = {method, endpoint, requestBody, statusCode, responseBody} as InteractionType;
         setInteractions((prevState) => {
@@ -81,8 +75,7 @@ export const Interaction = ({id, interaction, setInteractions}: InteractionProps
              paddingY={PADDING_SMALL}
              gap={PADDING_SMALL}
         >
-            <Box sx={
-                {backgroundColor: LIGHT_COLOUR}}
+            <Box bgcolor={COLOUR_PRIMARY_EXTRA_LIGHT}
                  display={"flex"}
                  gap={PADDING_SMALL}
                  paddingX={PADDING_MEDIUM}

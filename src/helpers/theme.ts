@@ -1,5 +1,6 @@
 import { createTheme } from '@mui/material';
 import {
+    BACKGROUND_COLOUR,
     COLOUR_PRIMARY_CONTRAST_TEXT,
     COLOUR_PRIMARY_DARK,
     COLOUR_PRIMARY_LIGHT,
@@ -42,11 +43,25 @@ const theme = createTheme({
                         backgroundColor: MUI_FILLED_INPUT_DARK_BG,
                     },
                     '&::before': {
-                        borderBottom: `2px solid ${COLOUR_PRIMARY_LIGHT}`
+                        borderBottom: `2px solid ${COLOUR_PRIMARY_MAIN}`
                     },
                     '&:hover:not(.Mui-disabled):before ': {
-                        borderBottom: `2px solid ${COLOUR_PRIMARY_LIGHT}`
+                        borderBottom: `2px solid ${COLOUR_PRIMARY_MAIN}`
                     }
+                }
+            }
+        },
+        MuiPaper: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: BACKGROUND_COLOUR
+                }
+            }
+        },
+        MuiSvgIcon: {
+            styleOverrides: {
+                root: {
+                    fill: COLOUR_PRIMARY_MAIN
                 }
             }
         }
