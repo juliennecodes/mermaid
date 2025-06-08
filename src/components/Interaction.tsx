@@ -11,7 +11,6 @@ import {
 } from "../helpers/styleConstants.ts";
 
 const SelectMethod = ({method, setMethod}: SelectMethodProps) => {
-
     return (
         <FormControl variant="filled" sx={{m: 1, minWidth: 120}}>
             <InputLabel id="method-label">Method</InputLabel>
@@ -53,19 +52,15 @@ export const Interaction = ({id, interaction, setInteractions}: InteractionProps
     const [responseBody, setResponseBody] = useState(interaction.responseBody);
 
     useEffect(() => {
-        const valuesForInteraction = {method, endpoint, requestBody, statusCode, responseBody} as InteractionType;
+        const valuesForInteraction = {id, method, endpoint, requestBody, statusCode, responseBody} as InteractionType;
         setInteractions((prevState) => {
-            const newVersion = [...prevState];
-            newVersion[id] = valuesForInteraction;
-            return newVersion;
+            return prevState.map((interactionValue) => interactionValue.id === id ? valuesForInteraction : interactionValue);
         });
     }, [method, endpoint, requestBody, statusCode, responseBody, id, setInteractions])
 
     const deleteInteraction = () => {
         setInteractions((prevState) => {
-            const newVersion = [...prevState];
-            newVersion.splice(id, 1);
-            return newVersion;
+            return prevState.filter((interactionValue) => interactionValue.id !== id);
         });
     }
 

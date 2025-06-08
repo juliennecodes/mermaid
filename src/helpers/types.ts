@@ -6,6 +6,7 @@ export type MethodType = typeof methods[number];
 export type StatusCodeType = typeof statusCodes[number];
 
 export type InteractionType = {
+    id: string,
     method: MethodType,
     endpoint: string,
     requestBody: string,
@@ -19,7 +20,7 @@ export type ValuesForMarkup = {
     interactions: InteractionType[]
 }
 
-export type InteractionProps = {id: number, interaction: InteractionType, setInteractions: Dispatch<SetStateAction<InteractionType[]>>}
+export type InteractionProps = {id: string, interaction: InteractionType, setInteractions: Dispatch<SetStateAction<InteractionType[]>>}
 export type SelectStatusCodeProps = {statusCode: number, setStatusCode: Dispatch<SetStateAction<StatusCodeType>>}
 export type SelectMethodProps = {method: MethodType, setMethod: Dispatch<SetStateAction<MethodType>>}
 export type MermaidMakerProps = {setMermaidMarkup: Dispatch<SetStateAction<string>>}

@@ -2,7 +2,7 @@ import {Box, Button, TextField} from "@mui/material";
 import {useEffect, useState} from "react";
 import {generateMarkup} from "../helpers/generateMarkup.ts";
 import {Interaction} from "./Interaction.tsx";
-import {emptyInteraction} from "../helpers/helpers.ts";
+import {generateEmptyInteraction} from "../helpers/helpers.ts";
 import type {InteractionType, MermaidMakerProps} from "../helpers/types.ts";
 import {
     COLOUR_PRIMARY_LIGHT,
@@ -12,10 +12,10 @@ import {
 export const MermaidMaker = ({setMermaidMarkup}: MermaidMakerProps) => {
     const [participantAName, setParticipantAName] = useState('A');
     const [participantBName, setParticipantBName] = useState('B');
-    const [interactions, setInteractions] = useState([{...emptyInteraction}] as InteractionType[]);
+    const [interactions, setInteractions] = useState([generateEmptyInteraction()] as InteractionType[]);
 
     const addInteraction = () => {
-        setInteractions((prevState) => [...prevState, emptyInteraction]);
+        setInteractions((prevState) => [...prevState, generateEmptyInteraction()]);
     }
 
     useEffect(() => {
@@ -57,9 +57,9 @@ export const MermaidMaker = ({setMermaidMarkup}: MermaidMakerProps) => {
                      sx={{height: '64vh', overflowY: 'scroll'}}
                 >
                     {interactions.map(
-                        (interactionValue, index) =>
-                            <Interaction key={index}
-                                         id={index}
+                        (interactionValue) =>
+                            <Interaction key={interactionValue.id}
+                                         id={interactionValue.id}
                                          interaction={interactionValue}
                                          setInteractions={setInteractions}/>)
                     }
